@@ -1,0 +1,11 @@
+@CHARSET "UTF-8";
+
+@font-face{
+	font-family: ubuntu;
+	src: url('Ubuntu-L.ttf')
+}
+
+*{margin:0; padding:0;}
+body{font: 12px ubuntu; margin:0 auto; background: url("../images/bg_login.jpg") repeat-x;}
+
+#template_login{width:400px; margin:0 auto; margin-top:200px; border:18px solid #F1F1F1;}
