@@ -6,6 +6,7 @@
 	  xmlns:h="http://java.sun.com/jsf/html"
 	  xmlns:f="http://java.sun.com/jsf/core"
 	  xmlns:ui="http://java.sun.com/jsf/facelets">
+	  
 
 	<ui:define name="login">
 		<h:form id="formAutenticar">
@@ -16,16 +17,16 @@
 			
 				<h:panelGrid style="margin-top:10px;" width="395">
 					<h:panelGrid columns="2" style="margin:0 auto;">
-						<p:outputLabel for="idLogin" value="Login:"/>
-						<p:inputText id="idLogin" />
+						<p:outputLabel for="idLogin" value="CPF:"/>
+						<p:inputText id="idLogin" value="#{autenticarBean.usuario.numeroCPF}"/>
 						
 						<p:outputLabel for="idSenha" value="Senha:"/>
-						<p:inputText id="idSenha" />
+						<p:inputText id="idSenha" value="#{autenticarBean.usuario.senha}"/>
 					</h:panelGrid>
 				</h:panelGrid>
 				
 				<h:panelGrid columns="2" style="margin:0 auto; margin-top:10px;">
-					<p:commandButton value="Entrar" actionListener="#{autenticarBean.login}" update="@form"/>
+					<p:commandButton value="Entrar" actionListener="#{autenticarBean.login}" update=":formAutenticar"/>
 					<p:commandLink value="&raquo; Esqueci minha senha." style="margin-left:30px; font-style: italic;"/>
 				</h:panelGrid>
 				

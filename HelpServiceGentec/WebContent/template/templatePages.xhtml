@@ -12,11 +12,31 @@
 <h:outputStylesheet name="template_hs.css" library="css"/>
 </h:head>
 <h:body>
-
-	<div id="template_login">
-		<ui:insert name="login">
+	
+	<div id="template_pages">
 		
-		</ui:insert>
+		<div id="template_pages_top">
+		
+		</div>
+		
+		<div id="template_pages_menu">
+			<h:form id="formMenu">
+				<p:megaMenu>
+					<p:submenu label="Usuário">
+						<p:column>
+							<p:submenu>
+								<p:menuitem value="Cadastro"/>
+								<p:menuitem value="Alterar/Remover"/>
+								<p:menuitem value="Consultar"/>
+								<p:menuitem value="Perfil de Acesso"/>
+							</p:submenu>
+						</p:column>
+					</p:submenu>
+				</p:megaMenu>
+			</h:form>
+		</div>	
+	
+	
 	</div>
 
 </h:body>

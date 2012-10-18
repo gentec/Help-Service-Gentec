@@ -1,27 +1,34 @@
 package br.inf.gentec.hs.jsf.bean;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.ExternalContext;
+import javax.ejb.Stateless;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-@ViewScoped
-@ManagedBean(name="autenticarBean")
+import br.inf.gentec.hs.model.Usuario;
+
+@Named(value="autenticarBean")
+@Stateless
 public class AutenticarBean {
-
+	
+	@Inject
+	private Usuario usuario;
+	
+	public Usuario getUsuario() {
+		return usuario;
+	}
+	
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+	
 	public void login(ActionEvent event) {
 		try {
 			HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-			HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-
-			ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-			context.redirect("/pages/home.jsf");
 			
-			
-			response.sendRedirect(request.getContextPath()+"/pages/home.jsf");
+			FacesContext.getCurrentInstance().getExternalContext().redirect(request.getContextPath()+"/pages/home.jsf");
 			
 		} catch (Exception e) {
 			e.printStackTrace();
