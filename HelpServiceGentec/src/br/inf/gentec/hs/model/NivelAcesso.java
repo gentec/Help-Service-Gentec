@@ -18,33 +18,17 @@ public class NivelAcesso implements ObjectModel{
 	@Column(name="id_nivelacesso")
 	private Long id;
 	
-	@Column(name="tipoacesso_nivelacesso", nullable=false, length=50)
-	private String tipoAcesso;
+	@Column(name="nome_nivelacesso", nullable=false, length=50)
+	private String nome;
 	
-	@Column(name="descricao_nivelacesso", nullable=false, length=255)
-	private String descricao;
-
+	@Column(name="permissaoXml_nivelacesso", nullable=false, length=255)
+	private String permissaoXml;
+	
 	public Long getId() {
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getTipoAcesso() {
-		return tipoAcesso;
-	}
-
-	public void setTipoAcesso(String tipoAcesso) {
-		this.tipoAcesso = tipoAcesso;
-	}
-
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
 	}
 }

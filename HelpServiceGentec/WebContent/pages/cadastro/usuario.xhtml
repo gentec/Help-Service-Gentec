@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/template/templatePages.xhtml"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<ui:define name="conteudo">
+		<p:panel header="Cadastro de Usuário">
+			<h:form id="formNovo">
+				<p:commandButton value="Novo Usuário" icon="ui-icon-document" oncomplete="dialogCadastro.show()"/>
+			</h:form>
+			<br/><p:separator/><br/>
+			
+			<h:form id="formTabela">
+				<p:dataTable id="tabelaUsuario" emptyMessage="Sem usuário cadastrado">
+					<f:facet name="header">
+						<h:outputLabel value="Usuário Cadastrado" />
+					</f:facet>
+				
+				</p:dataTable>
+			</h:form>
+		</p:panel>
+		
+		<h:form id="formCadastro">
+			<p:dialog modal="true" position="center" draggable="false" resizable="false" widgetVar="dialogCadastro"
+				header="Novo Usuário [* Campo Obrigatório]">
+				<h:panelGrid columns="2" id="grade">
+					<p:fieldset>
+						<h:panelGrid columns="2">
+							<p:outputLabel for="nome" value="Nome Completo:"/>
+							<p:inputText id="nome" value="#{usuarioBean.facade.usuario.nomeCompleto}" required="true"/>
+							
+							<p:outputLabel for="cpf" value="CPF:"/>
+							<p:inputText id="cpf" value="#{usuarioBean.facade.usuario.numeroCPF}" required="true"/>
+	
+							<p:outputLabel for="senha" value="Senha:"/>
+							<p:password id="senha" value="#{usuarioBean.facade.usuario.senha}" required="true" match="confirmacao"/>
+							
+							<p:outputLabel for="confirmacao" value="Senha:"/>
+							<p:password id="confirmacao" value="#{usuarioBean.facade.usuario.senha}" required="true" />
+						</h:panelGrid>
+					</p:fieldset><br/>
+					
+					<p:fieldset>
+						<h:panelGrid columns="2">
+							<p:outputLabel for="email" value="E-mail:"/>
+							<p:inputText id="email" value="#{usuarioBean.facade.usuario.email}" required="true"/>
+							
+							<p:outputLabel for="telefone" value="Telefone:"/>
+							<p:inputMask mask="(99)9999-9999" id="telefone" value="#{usuarioBean.facade.usuario.telefone}"/>
+							
+							<p:outputLabel for="ramal" value="Ramal"/>
+							<p:inputText id="ramal" value="#{usuarioBean.facade.usuario.ramal}" />
+						</h:panelGrid>
+					</p:fieldset>
+				</h:panelGrid>
+				<p:commandButton value="Salvar" icon="ui-icon-disk" actionListener="#{usuarioBean.saveUsuario}" 
+					update=":formCadastro:grade :formTabela"/>
+			</p:dialog>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

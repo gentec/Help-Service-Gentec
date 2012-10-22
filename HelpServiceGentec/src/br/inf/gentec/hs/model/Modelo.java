@@ -26,7 +26,7 @@ public class Modelo implements ObjectModel {
 	private String nome;
 	
 	//Definir se vai guardar a imagem no BD, ou somente caminho
-	@Column(name="nome_modelo", nullable=true, length=255)
+	@Column(name="imagem_modelo", nullable=true, length=255)
 	private String imagem;
 	
 	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.PERSIST)

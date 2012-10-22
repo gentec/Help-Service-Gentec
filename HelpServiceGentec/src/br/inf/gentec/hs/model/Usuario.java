@@ -49,7 +49,7 @@ public class Usuario implements ObjectModel {
 	private String ramal;
 	
 	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.PERSIST)
-	@JoinColumn(name="fk_nivelacesso", referencedColumnName="id_nivelacesso")
+	@JoinColumn(name="fk_nivelacesso", referencedColumnName="id_nivelacesso", nullable=false)
 	private NivelAcesso nivelAcesso;
 
 	public Long getId() {
@@ -117,6 +117,9 @@ public class Usuario implements ObjectModel {
 	}
 
 	public NivelAcesso getNivelAcesso() {
+		if(nivelAcesso == null) {
+			nivelAcesso = new NivelAcesso();
+		}
 		return nivelAcesso;
 	}
 
