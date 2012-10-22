@@ -31,4 +31,20 @@ public class NivelAcesso implements ObjectModel{
 	public void setId(Long id) {
 		this.id = id;
 	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getPermissaoXml() {
+		return permissaoXml;
+	}
+
+	public void setPermissaoXml(String permissaoXml) {
+		this.permissaoXml = permissaoXml;
+	}
 }

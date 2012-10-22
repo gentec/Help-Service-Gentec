@@ -30,14 +30,21 @@
 				<h:panelGrid columns="2" id="grade">
 					<p:fieldset>
 						<h:panelGrid columns="2">
-							<p:outputLabel for="nome" value="Nome Completo:"/>
-							<p:inputText id="nome" value="#{usuarioBean.facade.usuario.nomeCompleto}" required="true"/>
+							<p:outputLabel for="nivel" value="Permissão:"/>
+							<p:selectOneMenu id="nivel" value="#{usuarioBean.facade.usuario.nivelAcesso.id}" required="true">
+								<f:selectItem itemLabel="Selecione" itemValue="#{null}"/>
+								<f:selectItems var="itemNivel" value="#{usuarioBean.facade.listaNivel}" itemLabel="#{itemNivel.nome}" 
+									itemValue="#{itemNivel.id}"/>
+							</p:selectOneMenu>				
+						
+							<p:outputLabel for="nome" value="Nome:"/>
+							<p:inputText id="nome" value="#{usuarioBean.facade.usuario.nomeCompleto}" required="true" style="width:300px"/>
 							
 							<p:outputLabel for="cpf" value="CPF:"/>
 							<p:inputText id="cpf" value="#{usuarioBean.facade.usuario.numeroCPF}" required="true"/>
 	
 							<p:outputLabel for="senha" value="Senha:"/>
-							<p:password id="senha" value="#{usuarioBean.facade.usuario.senha}" required="true" match="confirmacao"/>
+							<p:password id="senha" value="#{usuarioBean.facade.usuario.senha}" required="true" match="confirmacao" feedback="true"/>
 							
 							<p:outputLabel for="confirmacao" value="Senha:"/>
 							<p:password id="confirmacao" value="#{usuarioBean.facade.usuario.senha}" required="true" />

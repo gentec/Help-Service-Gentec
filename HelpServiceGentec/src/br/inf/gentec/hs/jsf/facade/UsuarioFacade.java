@@ -1,6 +1,7 @@
 package br.inf.gentec.hs.jsf.facade;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 
 import javax.ejb.EJB;
@@ -9,6 +10,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import br.inf.gentec.hs.api.ObjectDBPersist;
+import br.inf.gentec.hs.api.ObjectDBSearch;
 import br.inf.gentec.hs.model.NivelAcesso;
 import br.inf.gentec.hs.model.Usuario;
 
@@ -17,22 +19,22 @@ public class UsuarioFacade implements Serializable {
 	
 	@EJB
 	private ObjectDBPersist daoPersist;
+	@EJB(beanName="nivelacessoDAO")
+	private ObjectDBSearch<NivelAcesso> daoNivel;
 	@Inject
 	private Usuario usuario;
+	private Collection<NivelAcesso> listaNivel;
 	
-	public Usuario getUsuario() {
-		return usuario;
-	}
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public Collection<NivelAcesso> getListaNivel() {
+		if(listaNivel == null) {
+			listaNivel = daoNivel.findAll();
+		}
+		return listaNivel;
 	}
 	
 	public void save() {
 		if(usuario != null) {
 			getUsuario().setDataCadastro(new Date());
-			NivelAcesso nivel = new NivelAcesso();
-			nivel.setId(1L);
-			getUsuario().setNivelAcesso(nivel);
 			
 			if(daoPersist.save(getUsuario())) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
@@ -43,5 +45,12 @@ public class UsuarioFacade implements Serializable {
 			}
 			usuario=new Usuario();
 		}
+	}
+	
+	public Usuario getUsuario() {
+		return usuario;
+	}
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 }
