@@ -2,6 +2,9 @@ package br.inf.gentec.hs.api;
 
 import java.util.Collection;
 
+import javax.ejb.Local;
+
+@Local
 public interface ObjectDBSearch<T> {
 	T query();
 	T queryKey(Object obj);

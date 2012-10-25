@@ -17,9 +17,8 @@ import br.inf.gentec.hs.api.ObjectDBSearch;
 import br.inf.gentec.hs.model.NivelAcesso;
 
 @Local
-@Stateful(name="nivelacessoDAO")
+@Stateful(name="nivelAcessoDAO")
 @TransactionManagement(TransactionManagementType.CONTAINER)
-@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class NivelAcessoDAO implements ObjectDBSearch<NivelAcesso>, Serializable {
 	private static final long serialVersionUID = 350062811417627864L;
 
@@ -27,12 +26,12 @@ public class NivelAcessoDAO implements ObjectDBSearch<NivelAcesso>, Serializable
 	private EntityManager manager;
 	
 	@Override
+	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	public Collection<NivelAcesso> findAll() {
 		TypedQuery<NivelAcesso> query = null;
 		
 		try {
-			System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>");
-			query = this.manager.createQuery("select n from NivelAcesso n", NivelAcesso.class);
+			query = this.manager.createQuery("select n from NivelAcesso n order by nome", NivelAcesso.class);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

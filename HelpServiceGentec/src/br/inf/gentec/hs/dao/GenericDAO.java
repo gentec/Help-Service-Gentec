@@ -2,7 +2,7 @@ package br.inf.gentec.hs.dao;
 
 import java.io.Serializable;
 
-import javax.ejb.Stateful;
+import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
@@ -13,7 +13,7 @@ import javax.persistence.PersistenceContext;
 import br.inf.gentec.hs.api.ObjectDBPersist;
 import br.inf.gentec.hs.api.ObjectModel;
 
-@Stateful
+@Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class GenericDAO implements Serializable, ObjectDBPersist {
@@ -29,11 +29,6 @@ public class GenericDAO implements Serializable, ObjectDBPersist {
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
-			try {
-				manager.getTransaction().rollback();
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
 			return false;
 		}
 	}
@@ -44,11 +39,7 @@ public class GenericDAO implements Serializable, ObjectDBPersist {
 			manager.refresh(oT);
 			return true;
 		} catch (Exception e) {
-			try {
-				manager.getTransaction().rollback();
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
+			e.printStackTrace();
 			return false;
 		}
 	}
@@ -56,14 +47,10 @@ public class GenericDAO implements Serializable, ObjectDBPersist {
 	@Override
 	public <T extends ObjectModel> Boolean delete(T oT) {
 		try {
-			manager.remove(oT);
+			manager.remove(manager.merge(oT));
 			return true;
 		} catch (Exception e) {
-			try {
-				manager.getTransaction().rollback();
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
+			e.printStackTrace();
 			return false;
 		}
 	}

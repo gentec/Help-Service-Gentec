@@ -24,6 +24,12 @@ public class UsuarioBean implements Serializable {
 	public void saveUsuario(ActionEvent event) {
 		getFacade().save();
 	}
-
 	
+	public void deleteUsuario(ActionEvent event) {
+		getFacade().delete();
+	}
+	
+	public void updateUsuario(ActionEvent event) {
+		getFacade().update();
+	}
 }

@@ -9,16 +9,67 @@
 
 	<ui:define name="conteudo">
 		<p:panel header="Cadastro de Usuário">
+			<h:form id="formMensage">
+				<p:growl id="mensage" rendered="#{utilBean.mensage}"/>
+			</h:form>
+			
 			<h:form id="formNovo">
 				<p:commandButton value="Novo Usuário" icon="ui-icon-document" oncomplete="dialogCadastro.show()"/>
 			</h:form>
 			<br/><p:separator/><br/>
 			
 			<h:form id="formTabela">
-				<p:dataTable id="tabelaUsuario" emptyMessage="Sem usuário cadastrado">
+				<p:dataTable id="tabelaUsuario" var="item" value="#{usuarioBean.facade.listaUsuario}" emptyMessage="Sem usuário cadastrado"
+					filteredValue="#{usuarioBean.facade.listaFilterUsuario}">
 					<f:facet name="header">
 						<h:outputLabel value="Usuário Cadastrado" />
 					</f:facet>
+					
+					<p:column style="width:10px;">
+						<p:rowToggler />
+					</p:column>
+					
+					<p:column headerText="Nome" sortBy="#{item.nomeCompleto}" filterBy="#{item.nomeCompleto}">
+						<h:outputLabel value="#{item.nomeCompleto}" />
+					</p:column>
+					
+					<p:column headerText="CPF" sortBy="#{item.numeroCPF}">
+						<h:outputLabel value="#{item.numeroCPF}" />
+					</p:column>
+					
+					<p:column headerText="E-mail" sortBy="#{item.email}">
+						<h:outputLabel value="#{item.email}" />
+					</p:column>
+					
+					<p:column headerText="Telefone" sortBy="#{item.telefone}">
+						<h:outputLabel value="#{item.telefone}" />
+					</p:column>
+					
+					<p:column style="text-align:center; width: 10px;">
+						<p:commandButton icon="ui-icon-pencil"/>
+					</p:column>
+					
+					<p:column style="text-align:center;width: 10px;">
+						<p:commandButton icon="ui-icon-trash" oncomplete="dialogRemover.show()">
+							<f:setPropertyActionListener target="#{usuarioBean.facade.usuario}" value="#{item}" />
+						</p:commandButton>
+					</p:column>
+					
+					<p:rowExpansion>
+						<h:panelGrid columns="2" cellpadding="4" style="width:300px" styleClass="ui-widget-content grid">
+							<h:outputLabel value="Data Cadastro:" />
+							<h:outputLabel value="#{item.dataCadastro}">
+								<f:convertDateTime pattern="dd/MM/yyyy"/>
+							</h:outputLabel>
+							
+							<h:outputLabel value="Ramal:" />
+							<h:outputLabel value="#{item.ramal}" />
+							
+							<h:outputLabel value="Nível de Acesso:" />
+							<h:outputLabel value="#{item.nivelAcesso.nome}" />
+												
+						</h:panelGrid>
+					</p:rowExpansion>
 				
 				</p:dataTable>
 			</h:form>
@@ -65,8 +116,26 @@
 					</p:fieldset>
 				</h:panelGrid>
 				<p:commandButton value="Salvar" icon="ui-icon-disk" actionListener="#{usuarioBean.saveUsuario}" 
-					update=":formCadastro:grade :formTabela"/>
+					update=":formCadastro:grade :formTabela:tabelaUsuario :formMensage :formDesativa">
+					<f:setPropertyActionListener target="#{utilBean.mensage}" value="#{true}" />
+				</p:commandButton>
 			</p:dialog>
+		</h:form>
+		
+		<h:form id="formDelete">
+			<p:confirmDialog message="Deseja realmente remover este usuário?" header="&curren; Remoção" widgetVar="dialogRemover">
+				<p:commandButton value="Sim" icon="ui-icon-check" actionListener="#{usuarioBean.deleteUsuario}" oncomplete="dialogRemover.hide()"
+					update=":formTabela :formMensage :formDesativa">
+					<f:setPropertyActionListener target="#{utilBean.mensage}" value="#{true}" />
+				</p:commandButton>
+				<p:commandButton value="Não" icon="ui-icon-close" oncomplete="dialogRemover.hide()" />
+			</p:confirmDialog>
+		</h:form>
+		
+		<h:form id="formDesativa">
+			<p:remoteCommand name="detativaGrowl" autoRun="true">
+				<f:setPropertyActionListener target="#{utilBean.mensage}" value="#{false}" />
+			</p:remoteCommand>
 		</h:form>
 	</ui:define>
 
