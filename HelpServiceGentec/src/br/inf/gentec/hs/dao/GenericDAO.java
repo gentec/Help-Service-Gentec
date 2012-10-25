@@ -25,7 +25,7 @@ public class GenericDAO implements Serializable, ObjectDBPersist {
 	@Override
 	public <T extends ObjectModel> Boolean save(T oT) {
 		try {
-			manager.merge(oT);
+			manager.persist(oT);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -36,7 +36,7 @@ public class GenericDAO implements Serializable, ObjectDBPersist {
 	@Override
 	public <T extends ObjectModel> Boolean update(T oT) {
 		try {
-			manager.refresh(oT);
+			manager.merge(oT);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();

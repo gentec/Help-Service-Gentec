@@ -18,14 +18,11 @@ import br.inf.gentec.hs.model.Usuario;
 public class UsuarioFacade implements Serializable {
 	private static final long serialVersionUID = 5418646339244069342L;
 	
-	@EJB
-	private ObjectDBPersist daoPersist;
-	@EJB(beanName="nivelAcessoDAO")
-	private ObjectDBSearch<NivelAcesso> daoNivel;
-	@EJB(beanName="usuarioDAO")
-	private ObjectDBSearch<Usuario> daoUsuario;
-	@Inject
-	private Usuario usuario;
+	private @EJB ObjectDBPersist daoPersist;
+	private @EJB(beanName="nivelAcessoDAO") ObjectDBSearch<NivelAcesso> daoNivel;
+	private @EJB(beanName="usuarioDAO") ObjectDBSearch<Usuario> daoUsuario;
+	private @Inject Usuario usuario;
+	private @Inject Usuario usuarioSelec;
 	private Collection<NivelAcesso> listaNivel;
 	private Collection<Usuario> listaUsuario;
 	
@@ -56,15 +53,14 @@ public class UsuarioFacade implements Serializable {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
 						FacesMessage.SEVERITY_ERROR, "Problema ao salvar usuário.", ""));
 			}
-			usuario=new Usuario();listaUsuario=null;
+			usuario=new Usuario();listaUsuario=null;listaFilterUsuario=null;
 		}
 	}
 	
 	public void delete() {
-		System.out.println(">>>> "+usuario);
 		
 		if(usuario != null) {
-			if(daoPersist.delete(getUsuario())) {
+			if(daoPersist.delete(getUsuarioSelec())) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
 						FacesMessage.SEVERITY_INFO, "Usuáio removido com sucesso.", ""));
 			} else {
@@ -77,14 +73,14 @@ public class UsuarioFacade implements Serializable {
 	
 	public void update() {
 		if(usuario != null) {
-			if(daoPersist.update(getUsuario())) {
+			if(daoPersist.update(getUsuarioSelec())) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
 						FacesMessage.SEVERITY_INFO, "Usuáio alterado com sucesso.", ""));
 			} else {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
 						FacesMessage.SEVERITY_ERROR, "Problema ao remover usuário.", ""));
 			}
-			listaUsuario=null;
+			listaUsuario=null;listaFilterUsuario=null;
 		} 
 	}
 	
@@ -95,9 +91,21 @@ public class UsuarioFacade implements Serializable {
 		this.listaFilterUsuario = listaFilterUsuario;
 	}
 	public Usuario getUsuario() {
+		/*if(usuario == null) {
+			usuario = new Usuario();
+		}*/
 		return usuario;
 	}
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+	public Usuario getUsuarioSelec() {
+		/*if(usuarioSelec == null) {
+			usuarioSelec = new Usuario();
+		}*/
+		return usuarioSelec;
+	}
+	public void setUsuarioSelec(Usuario usuarioSelec) {
+		this.usuarioSelec = usuarioSelec;
 	}
 }

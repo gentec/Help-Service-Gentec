@@ -2,7 +2,6 @@ package br.inf.gentec.hs.model;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -48,7 +47,7 @@ public class Usuario implements ObjectModel {
 	@Column(name="ramal_usuario", nullable=true, length=6)
 	private String ramal;
 	
-	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.PERSIST)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="fk_nivelacesso", referencedColumnName="id_nivelacesso", nullable=false)
 	private NivelAcesso nivelAcesso;
 

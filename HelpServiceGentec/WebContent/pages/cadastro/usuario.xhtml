@@ -46,12 +46,14 @@
 					</p:column>
 					
 					<p:column style="text-align:center; width: 10px;">
-						<p:commandButton icon="ui-icon-pencil"/>
+						<p:commandButton icon="ui-icon-pencil" oncomplete="dialogAlterar.show()" update=":formAlterar">
+							<f:setPropertyActionListener target="#{usuarioBean.facade.usuarioSelec}" value="#{item}" />
+						</p:commandButton>
 					</p:column>
 					
 					<p:column style="text-align:center;width: 10px;">
 						<p:commandButton icon="ui-icon-trash" oncomplete="dialogRemover.show()">
-							<f:setPropertyActionListener target="#{usuarioBean.facade.usuario}" value="#{item}" />
+							<f:setPropertyActionListener target="#{usuarioBean.facade.usuarioSelec}" value="#{item}" />
 						</p:commandButton>
 					</p:column>
 					
@@ -82,7 +84,7 @@
 					<p:fieldset>
 						<h:panelGrid columns="2">
 							<p:outputLabel for="nivel" value="Permissão:"/>
-							<p:selectOneMenu id="nivel" value="#{usuarioBean.facade.usuario.nivelAcesso.id}" required="true">
+							<p:selectOneMenu id="nivel" value="#{usuarioBean.facade.usuario.nivelAcesso.id}" required="true" style="width: 200px;">
 								<f:selectItem itemLabel="Selecione" itemValue="#{null}"/>
 								<f:selectItems var="itemNivel" value="#{usuarioBean.facade.listaNivel}" itemLabel="#{itemNivel.nome}" 
 									itemValue="#{itemNivel.id}"/>
@@ -92,7 +94,7 @@
 							<p:inputText id="nome" value="#{usuarioBean.facade.usuario.nomeCompleto}" required="true" style="width:300px"/>
 							
 							<p:outputLabel for="cpf" value="CPF:"/>
-							<p:inputText id="cpf" value="#{usuarioBean.facade.usuario.numeroCPF}" required="true"/>
+							<p:inputMask mask="999.999.999-99" id="cpf" value="#{usuarioBean.facade.usuario.numeroCPF}" required="true" />
 	
 							<p:outputLabel for="senha" value="Senha:"/>
 							<p:password id="senha" value="#{usuarioBean.facade.usuario.senha}" required="true" match="confirmacao" feedback="true"/>
@@ -117,6 +119,47 @@
 				</h:panelGrid>
 				<p:commandButton value="Salvar" icon="ui-icon-disk" actionListener="#{usuarioBean.saveUsuario}" 
 					update=":formCadastro:grade :formTabela:tabelaUsuario :formMensage :formDesativa">
+					<f:setPropertyActionListener target="#{utilBean.mensage}" value="#{true}" />
+				</p:commandButton>
+			</p:dialog>
+		</h:form>
+		
+		<h:form id="formAlterar">
+			<p:dialog modal="true" position="center" draggable="false" resizable="false" widgetVar="dialogAlterar"
+				header="Alterar Usuário [* Campo Obrigatório]">
+				<h:panelGrid columns="2" id="grade">
+					<p:fieldset>
+						<h:panelGrid columns="2">
+							<p:outputLabel for="nivel" value="Permissão:"/>
+							<p:selectOneMenu id="nivel" value="#{usuarioBean.facade.usuario.nivelAcesso.id}" required="true" style="width: 200px;">
+								<f:selectItem itemLabel="#{usuarioBean.facade.usuarioSelec.nivelAcesso.nome}" itemValue="#{usuarioBean.facade.usuarioSelec.nivelAcesso.id}"/>
+								<f:selectItems var="itemNivel" value="#{usuarioBean.facade.listaNivel}" itemLabel="#{itemNivel.nome}" 
+									itemValue="#{itemNivel.id}"/>
+							</p:selectOneMenu>				
+						
+							<p:outputLabel for="nome" value="Nome:"/>
+							<p:inputText id="nome" value="#{usuarioBean.facade.usuarioSelec.nomeCompleto}" required="true" style="width:300px"/>
+							
+							<p:outputLabel for="cpf" value="CPF:"/>
+							<p:inputMask mask="999.999.999-99" id="cpf" value="#{usuarioBean.facade.usuarioSelec.numeroCPF}" required="true"/>
+						</h:panelGrid>
+					</p:fieldset><br/>
+					
+					<p:fieldset>
+						<h:panelGrid columns="2">
+							<p:outputLabel for="email" value="E-mail:"/>
+							<p:inputText id="email" value="#{usuarioBean.facade.usuarioSelec.email}" required="true"/>
+							
+							<p:outputLabel for="telefone" value="Telefone:"/>
+							<p:inputMask mask="(99)9999-9999" id="telefone" value="#{usuarioBean.facade.usuarioSelec.telefone}"/>
+							
+							<p:outputLabel for="ramal" value="Ramal"/>
+							<p:inputText id="ramal" value="#{usuarioBean.facade.usuarioSelec.ramal}" />
+						</h:panelGrid>
+					</p:fieldset>
+				</h:panelGrid>
+				<p:commandButton value="Salvar" icon="ui-icon-disk" actionListener="#{usuarioBean.updateUsuario}" 
+					update=":formAlterar:grade :formTabela:tabelaUsuario :formMensage :formDesativa">
 					<f:setPropertyActionListener target="#{utilBean.mensage}" value="#{true}" />
 				</p:commandButton>
 			</p:dialog>
